@@ -1,20 +1,21 @@
+require 'cell'
+
 class WorldBuilder
-  
   def initialize row_size = 10, column_size = 10, life_probability = 0.5
     @row_size = row_size
     @column_size = column_size
     @life_probability = life_probability
   end
-  
+
   def build
     world = []
     @column_size.times do |x|
       row = build_row x
       world << row
     end
-    return world
+    world
   end
-  
+
   def build_from_file file_path
     world = []
     File.open(file_path, "r") do |infile|
@@ -31,23 +32,22 @@ class WorldBuilder
         line_counter += 1
       end
     end
-    return world
+    world
   end
-  
+
   private
-  
+
   def build_row x
     world_row = []
     @row_size.times do |y|
       cell = build_cell x, y
       world_row << cell
     end
-    return world_row
+    world_row
   end
-  
+
   def build_cell x, y
     alive = rand >= @life_probability ? false : true
-    return Cell.new x, y, alive
+    Cell.new x, y, alive
   end
-  
 end

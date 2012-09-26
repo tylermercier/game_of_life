@@ -1,9 +1,10 @@
-class Game
+require 'world'
 
+class Game
   def initialize file_path = nil
     @world = World.new file_path
   end
-  
+
   def draw
     puts
     @world.travel_rows do |world_row|
@@ -14,7 +15,7 @@ class Game
       puts
     end
   end
-  
+
   def progress
     @world.travel_cells do |cell|
       neighbors_count = @world.count_neighbors cell
@@ -22,7 +23,7 @@ class Game
     end
     update
   end
-  
+
   def update
     @world.travel_cells do |cell|
       cell.update

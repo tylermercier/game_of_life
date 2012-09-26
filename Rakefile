@@ -1,21 +1,20 @@
 require 'rake'
-#require 'spec/rake/spectask'
+require 'rspec/core/rake_task'
+require 'game'
 
-task :default => [:test, :run]
+task :default => [:spec]
 
 desc "runs the game of life application"
-task :run do
-  ruby "tasks/run.rb"
+task :run , :grid do |t, args|
+  grid = args["grid"].nil? ? 'default' : args["grid"]
+
+  game = Game.new "./grids/#{grid}"
+  game.draw
+
+  5.times do
+    game.progress
+    game.draw
+  end
 end
 
-desc "runs all unit tests"
-task :test do
-  ENV["ENVIRONMENT"] = "test"
-  ruby "tasks/test.rb"
-end
-
-# desc "Run all specs in spec directory"
-# Spec::Rake::SpecTask.new do |task|
-#   task.spec_opts = ['--options', "#{PROJECT_PATH}/spec/spec.opts"]
-#   task.pattern   = "spec/**/*_spec.rb"  
-# end
+RSpec::Core::RakeTask.new('spec')
